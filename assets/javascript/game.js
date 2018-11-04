@@ -13,7 +13,7 @@ var blanksAndGuesses = [];
 
 var guessedLetters = [];
 
-var numberOfGuesses = 10;
+var numberOfGuesses = 15;
 var winCount = 0;
 var lossCount = 0;
 
@@ -25,8 +25,7 @@ var lossCount = 0;
 function beginGame() {
 
 
-    // reset number of guesses
-    numberOfGuesses = 15;
+
 
 
     // select word from the array
@@ -35,6 +34,10 @@ function beginGame() {
     lettersInWord = currentWord.split("");
 
     numberOfBlanks = lettersInWord.length;
+
+    // reset number of guesses
+    numberOfGuesses = Math.ceil(numberOfBlanks * 1.5);
+
 
 
 
@@ -58,12 +61,19 @@ function beginGame() {
 function compareLetters(letter) {
 
     var letterPresentInWord = false;
+    var letterPresentInGuesses = false;
     for (var i = 0; i < numberOfBlanks; i++) {
         if (lettersInWord[i] === letter) {
 
             letterPresentInWord = true;
         }
 
+    }
+    for (var k = 0; k < guessedLetters.length; k++) {
+
+        if (guessedLetters[k] === letter) {
+            letterPresentInGuesses = true;
+        }
     }
     if (letterPresentInWord) {
         for (var j = 0; j < numberOfBlanks; j++) {
@@ -75,14 +85,23 @@ function compareLetters(letter) {
 
 
     }
+    else if (letterPresentInGuesses) {
+        console.log("you used this letter");
+
+    }
     else {
 
         guessedLetters.push(letter);
         numberOfGuesses--;
+
     }
 
 
+
 }
+
+
+
 
 function tallyGuesses() {
     document.getElementById("guesses-left").innerHTML = numberOfGuesses;
